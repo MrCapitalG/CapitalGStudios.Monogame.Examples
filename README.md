@@ -1,6 +1,11 @@
 # CapitalGStudios.Monogame.Examples
 An suite of examples built upon the Monogame framework
 
+# Requirements
+Monogame 3.7.1
+
+Visual Studio 2017
+
 # The Quad
 ![The Quad](https://capitalgstudios.files.wordpress.com/2018/12/Quad.png)
 
