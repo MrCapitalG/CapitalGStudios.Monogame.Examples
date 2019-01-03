@@ -42,6 +42,7 @@ namespace CapitalGStudios.MonoGame.Examples
 
         // Components
         private FrameRateCounter m_oFrameRateCounter = null;
+        private Camera m_oCamera = null;
 
         public Examples()
         {
@@ -53,8 +54,10 @@ namespace CapitalGStudios.MonoGame.Examples
         protected override void Initialize()
         {
             m_oFrameRateCounter = new FrameRateCounter(this);
+            m_oCamera = new Camera(this);
 
             Components.Add(m_oFrameRateCounter);
+            Components.Add(m_oCamera);
 
             base.Initialize();
         }
@@ -75,20 +78,20 @@ namespace CapitalGStudios.MonoGame.Examples
             m_oBasicEffect.Texture = m_oTextureQuad;
             m_oBasicEffect.VertexColorEnabled = true;
 
-            Vector3 cameraPosition = new Vector3(0.0f, 0.0f, 100000.0f);
-            Vector3 cameraTarget = new Vector3(0.0f, 0.0f, 0.0f); // Look back at the origin
+            Vector3 oCameraPosition = new Vector3(0.0f, 0.0f, 100000.0f);
+            Vector3 oCameraTarget = new Vector3(0.0f, 0.0f, 0.0f); // Look back at the origin
 
-            float fovAngle = MathHelper.ToRadians(45);  // convert 45 degrees to radians
-            float aspectRatio = GraphicsDevice.Viewport.Width / GraphicsDevice.Viewport.Height;
-            float near = 0.01f; // the near clipping plane distance
-            float far = 1500000f; // the far clipping plane distance
+            float fFovAngle = MathHelper.ToRadians(45);  // convert 45 degrees to radians
+            float fAspectRatio = GraphicsDevice.Viewport.Width / GraphicsDevice.Viewport.Height;
+            float fNear = 0.01f; // the near clipping plane distance
+            float fFar = 1500000f; // the far clipping plane distance
 
-            Matrix world = Matrix.CreateTranslation(0.0f, 0.0f, 0.0f);
-            Matrix view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.Up);
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(fovAngle, aspectRatio, near, far);
-            m_oBasicEffect.World = world;
-            m_oBasicEffect.View = view;
-            m_oBasicEffect.Projection = projection;
+            Matrix oWorld = Matrix.CreateTranslation(0.0f, 0.0f, 0.0f);
+            Matrix oView = Matrix.CreateLookAt(oCameraPosition, oCameraTarget, Vector3.Up);
+            Matrix oProjection = Matrix.CreatePerspectiveFieldOfView(fFovAngle, fAspectRatio, fNear, fFar);
+            m_oBasicEffect.World = oWorld;
+            m_oBasicEffect.View = oView;
+            m_oBasicEffect.Projection = oProjection;
 
             // Generate vertex buffer
             VertexPositionColorTexture[] oVertices = new VertexPositionColorTexture[QuadTotal * QuadTotalVertices];
@@ -172,6 +175,8 @@ namespace CapitalGStudios.MonoGame.Examples
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            m_oBasicEffect.View = m_oCamera.View;
 
             string sMode = string.Empty;
             if (DrawingVertexBuffer)
